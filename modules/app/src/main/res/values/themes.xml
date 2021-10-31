@@ -1,10 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.RoboDashboard" parent="Theme.AppCompat.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">#00000000</item>
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#ff000000</item>
+        <item name="android:statusBarColor">#00000000</item>
+        <item name="android:navigationBarColor">#00000000</item>
     </style>
 </resources>
