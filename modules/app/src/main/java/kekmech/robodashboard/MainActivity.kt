@@ -3,46 +3,44 @@ package kekmech.robodashboard
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kekmech.common_navigation.Router
+import kekmech.common_navigation.compose.ComposeRender
+import kekmech.common_navigation.compose.init
+import kekmech.common_navigation.compose.saveState
+import kekmech.common_navigation.core.NavigationCore
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+
+    private val navigationCore by inject<NavigationCore>()
+    private val router by inject<Router>()
+    private val render = ComposeRender { finish() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        setContent {
-            MainScreen()
-        }
+        navigationCore.init(savedInstanceState, MainScreen())
+        setContent { render.Content() }
     }
 
-    @Preview(device = Devices.PIXEL_C)
-    @Composable
-    fun MainScreen() {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-        ) {
-            val appName = stringResource(R.string.app_name)
-            Text(
-                text = "Hello $appName!",
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
+    override fun onResume() {
+        super.onResume()
+        navigationCore.render = render
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigationCore.render = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        navigationCore.saveState(outState)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        router.back()
     }
 }
