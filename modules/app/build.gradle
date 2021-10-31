@@ -1,0 +1,59 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "kekmech.robodashboard"
+        minSdk 21
+        targetSdk 31
+        versionCode appVersionCode
+        versionName appVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+        debug {
+            minifyEnabled false
+            applicationIdSuffix ".dev"
+        }
+    }
+    buildFeatures {
+        compose true
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+        freeCompilerArgs += [
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+        ]
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion versions.compose
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring desugaring
+    implementation androidx.appcompat
+    implementation compose.runtime
+    implementation compose.tooling
+    implementation compose.activity
+    implementation compose.foundation
+    implementation compose.layout
+    implementation compose.material
+}

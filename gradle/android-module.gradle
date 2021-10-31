@@ -1,0 +1,59 @@
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-parcelize"
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 31
+        versionCode appVersionCode
+        versionName appVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+            buildConfigField "String", "VERSION_NAME", "\"${rootProject.appVersionName}\""
+        }
+        debug {
+            minifyEnabled false
+            buildConfigField "String", "VERSION_NAME", "\"${rootProject.appVersionName}\""
+        }
+    }
+    buildFeatures {
+        compose true
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+        freeCompilerArgs += [
+                "-P",
+                "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=true"
+        ]
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion versions.compose
+    }
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
+
+dependencies {
+    coreLibraryDesugaring desugaring
+    implementation compose.runtime
+    implementation compose.tooling
+    implementation compose.foundation
+    implementation compose.layout
+}
