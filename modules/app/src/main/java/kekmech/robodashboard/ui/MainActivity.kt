@@ -1,4 +1,4 @@
-package kekmech.robodashboard
+package kekmech.robodashboard.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -9,6 +9,7 @@ import kekmech.common_navigation.compose.ComposeRender
 import kekmech.common_navigation.compose.init
 import kekmech.common_navigation.compose.saveState
 import kekmech.common_navigation.core.NavigationCore
+import kekmech.ui_kit.theme.AppTheme
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +22,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         navigationCore.init(savedInstanceState, MainScreen())
-        setContent { render.Content() }
+        setContent {
+            AppTheme {
+                render.Content()
+            }
+        }
     }
 
     override fun onResume() {

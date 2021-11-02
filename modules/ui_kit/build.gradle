@@ -1,0 +1,6 @@
+apply(from: "$gradleDir/android-module.gradle")
+
+dependencies {
+    implementation androidx.appcompat
+    implementation compose.material
+}

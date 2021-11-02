@@ -8,6 +8,7 @@ interface Router {
     fun replace(screen: Screen)
     fun newStack(screen: Screen)
     fun backTo(screenId: String)
+    fun backToRoot()
     fun back()
     fun exit()
 }

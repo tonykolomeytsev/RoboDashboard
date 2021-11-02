@@ -13,6 +13,8 @@ class RouterImpl(private val core: NavigationCore) : Router {
 
     override fun backTo(screenId: String) = core.dispatch(BackTo(screenId))
 
+    override fun backToRoot() = core.dispatch(BackToRoot)
+
     override fun back() = core.dispatch(Back)
 
     override fun exit() = core.dispatch(Exit)
